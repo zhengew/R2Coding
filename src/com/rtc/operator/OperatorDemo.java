@@ -1,4 +1,4 @@
-package com.rtc.Operator;
+package com.rtc.operator;
 
 public class OperatorDemo {
     public static void main(String[] args) {

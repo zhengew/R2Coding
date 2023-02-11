@@ -1,6 +1,6 @@
-package com.rtc.Operator;
+package com.rtc.operator;
 
-public class OperatorDemo5 {
+public class OperatorTest {
     public static void main(String[] args) {
         // 自增自减运算符 面试题
         int c = 10;

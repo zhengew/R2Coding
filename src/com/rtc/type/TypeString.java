@@ -4,7 +4,7 @@ public class TypeString {
     public String getCurr(){
         String data = "[\"GBP/CNY\", \"HKD/CNY\", \"AUD/CNY\", \"USD/CNY\"]";
         System.out.println(data);
-        String[] curr = data.replaceAll("[\\[\\]\\\\\"\\s]", "").split(",");
+        String[] curr = data.replaceAll("[\\[\\]\"\\s]", "").split(",");
         int index = 0;
         for(int i = 0; i < curr.length; i++){
 //            System.out.println(curr[i]);
