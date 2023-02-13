@@ -10,15 +10,17 @@ public class Test3 {
         未猜中提示：“未命中”，并继续猜测
         猜中提示：“运气不错，猜中了”，并输出该数据第一次出现的索引位置，最后把数组中的5个数据都输出看以下， 然后结束本游戏。*/
 
+        // 1.定义一个动态初始化数组
         int[] randomNum = new int[5];
 
+        // 2.动态生成5个 1 -20 之间的数据并存储到数组
         Random ran = new Random();
         for (int i = 0; i < randomNum.length; i++) {
             randomNum[i] = ran.nextInt(20) + 1;
         }
-
         System.out.println(randomNum[0]);
 
+        // 3.死循环直到用户猜中，并打印索引位置、并遍历数组元素
         Scanner sc = new Scanner(System.in);
         System.out.println("猜数字: ");
         OUT:
