@@ -12,5 +12,6 @@ public class Test2 {
         }
 
         System.out.println("最大值: " + max);
+
     }
 }
