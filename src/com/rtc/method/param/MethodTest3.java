@@ -5,7 +5,7 @@ package com.rtc.method.param;
 “该数组内容为：[11, 22, 33, 44, 55]”
 */
 
-public class Test3 {
+public class MethodTest3 {
     public static void main(String[] args) {
         int[] arr = {1, 2, 3, 4};
         printArr(arr);
