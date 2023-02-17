@@ -1,5 +1,4 @@
 package com.rtc.method.param;
-
 import java.util.ArrayList;
 
 /*
