@@ -7,6 +7,19 @@ package com.rtc.method.param;
 
 public class Test3 {
     public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4};
+        printArr(arr);
+    }
 
+    public static void printArr(int[] arr){
+        String str = "[";
+        for (int i = 0; i < arr.length; i++) {
+            if (i != arr.length-1){
+                str += arr[i] + ", ";
+            }else{
+                str += arr[i] + "]";
+            }
+        }
+        System.out.println("该数组的内容为：" + str);
     }
 }
