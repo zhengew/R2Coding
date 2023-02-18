@@ -1,8 +1,4 @@
 package com.rtc.method.param;
-<<<<<<< HEAD:src/com/rtc/method/param/Test5.java
-import java.util.ArrayList;
-=======
->>>>>>> dev:src/com/rtc/method/param/MethodTest5.java
 
 /*
     需求：
