@@ -1,4 +1,4 @@
-package com.rtc.homeWork;
+package com.rtc.homeWork.javase.day02;
 
 import java.util.Scanner;
 
