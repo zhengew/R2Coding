@@ -105,7 +105,7 @@ public class ShopCarTest {
      * @param shopCar
      */
     private static void updateGoods(Goods[] shopCar, Scanner sc) {
-        // 让用户谁让要修改商品的id，根据id查询出要修改商品的对象
+        // 让用户输入要修改商品的id，根据id查询出要修改商品的对象
         while (true) {
             System.out.println("请你输入要修改的商品id:");
             int id = sc.nextInt();
