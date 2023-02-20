@@ -27,7 +27,7 @@ public class ShopCarTest {
                 case "4":
                     payGood(shopCars);
                     break;
-                case "-1":
+                case "5":
                     System.out.println("退出购物车页面");
                     break OUT;
                 default:
@@ -87,7 +87,7 @@ public class ShopCarTest {
     }
 
     /**
-     * 查询已添加到购物车的商品
+     * 查询已添加到购物车的商品1
      * @param shopCars
      */
     private static void queryGood(Goods[] shopCars) {
@@ -141,7 +141,7 @@ public class ShopCarTest {
      * 购物车功能列表
      */
     private static void printFunc(){
-        String[] func = {"add", "query", "update", "pay"}; // 当前可提供的功能
+        String[] func = {"add", "query", "update", "pay", "quit"}; // 当前可提供的功能
         System.out.println("请选择需要进行的操作: ");
         for (int i = 0; i < func.length; i++) {
             System.out.println((i + 1) + ": " + func[i]);
@@ -175,6 +175,7 @@ public class ShopCarTest {
             Goods g = shopCars[i];
             if (g.getId() == id){
                 shopCars[i] = null;
+                break;
             }
         }
     }
