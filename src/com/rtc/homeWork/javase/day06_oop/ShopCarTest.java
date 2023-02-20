@@ -74,11 +74,10 @@ public class ShopCarTest {
                     if (deleteYN.equals("Y")){
                         System.out.println("已从购物车中删除商品：" + g.getName());
                         // 怎么确定数组位置？
-
+                        deleteGoods(shopCars, id);
+                        break;
                     }
                 }
-
-
                 queryGood(shopCars);
                 break;
             } else {
@@ -164,5 +163,19 @@ public class ShopCarTest {
             return null;  // 找完了全部存在的商品，都没有找到
         }
         return null; // 找完了全部100个商品，都没有匹配到
+    }
+
+    /**
+     *
+     * @param shopCars
+     * @param id
+     */
+    private static void deleteGoods(Goods[] shopCars, int id){
+        for (int i = 0; i < shopCars.length; i++) {
+            Goods g = shopCars[i];
+            if (g.getId() == id){
+                shopCars[i] = null;
+            }
+        }
     }
 }
