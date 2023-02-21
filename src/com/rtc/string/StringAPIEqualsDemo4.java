@@ -2,7 +2,7 @@ package com.rtc.string;
 
 import java.util.Scanner;
 
-public class StringEqualsDemo4 {
+public class StringAPIEqualsDemo4 {
     public static void main(String[] args) {
         // 1.正确的登录名和密码
         String okName = "test1";
