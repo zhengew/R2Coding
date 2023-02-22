@@ -41,7 +41,7 @@ public class StringAPIOtherDemo5 {
 
 //      boolean  contentEquals(CharSequence cs)    Compares this string to the specified CharSequence.
         System.out.println(name3.contains("金三胖")); // true
-        System.out.println(name3.contains("金二胖")); // false
+        System.out.println(name3.contains("金二胖2")); // false
 
 //      boolean startsWith(String prefix)    Tests if this string starts with the specified prefix.
 //      boolean startsWith(String prefix, int toffset)    Tests if the substring of this string beginning at the specified index starts with the specified prefix.
