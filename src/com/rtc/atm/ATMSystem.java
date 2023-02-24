@@ -100,6 +100,8 @@ public class ATMSystem {
                     depositMoney(account, sc);
                     break;
                 case 3:
+                    // 取款
+                    drawMoney(account, sc);
                     break;
                 case 4:
                     break;
@@ -118,12 +120,46 @@ public class ATMSystem {
     }
 
     /**
+     * 取款
+     * @param account 当前账户对象
+     * @param sc 扫描器
+     */
+    private static void drawMoney(Account account, Scanner sc) {
+        System.out.println("****************用户取款操作******************:");
+        // 1.判断余额是否大于100
+        if (account.getMoney() < 100.00) {
+            System.out.println("账户余额不足100元，不能取钱～");
+            return;
+        }
+        while (true) {
+            // 2.提示用户输入取款金额
+            System.out.println("请您输入取款金额：");
+            double money = sc.nextDouble();
+
+            // 3.判断金额是否满足要求
+            if (money > account.getQuotaMoney()) {
+                System.out.println("您当前取款金额超过了当次取款限额：" + account.getQuotaMoney());
+            } else {
+                if (money > account.getMoney()) {
+                    System.out.println("您当前账户余额不足，当前余额：" + account.getMoney());
+                } else {
+                    account.setMoney(account.getMoney() - money);
+                    System.out.println("恭喜您，取款成功，当前账户信息如下：");
+                    // 查询账户信息
+                    showAccount(account);
+                    return; // 结束取款功能
+                }
+            }
+        }
+    }
+
+    /**
      * 存钱
      * @param account 当前账户对象
      * @param sc 扫描器
      */
     private static void depositMoney(Account account, Scanner sc) {
-        System.out.println("****************用户存钱操作******************:");
+        System.out.println("****************用户存款操作******************:");
         System.out.println("请您输入存款的金额：");
         double money = sc.nextDouble();
         // 当前余额加上存款金额
