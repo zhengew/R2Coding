@@ -24,6 +24,7 @@ public class ATMSystem {
             switch (command) {
                 case 1:
                     // 用户登录
+                    login(accounts, sc);
                     break;
                 case 2:
                     // 用户账户开户（option + enter 快捷生成方法）
@@ -31,6 +32,37 @@ public class ATMSystem {
                     break;
                 default:
                     System.out.println("您输入的操作命令不存在");
+            }
+        }
+    }
+
+    /**
+     * 账户登陆功能实现
+     * @param accounts 接收账户的集合
+     */
+    private static void login(ArrayList<Account> accounts, Scanner sc) {
+        // 1.用户输入卡号,校验卡号是否存在
+        Account account = null;
+        OUT:
+        while (true) {
+            System.out.println("请输入您的卡号：");
+            String cardId = sc.next();
+            // 根据卡号查询账户对象
+            account = getAccountById(accounts, cardId);
+            if (account == null) {
+                System.out.println("不存在该卡号！");
+            }else {
+                // 2.用户输入密码，校验密码是否正确
+                while (true) {
+                    System.out.println("请输入您的密码：");
+                    String password = sc.next();
+                    if (account.getPassword().equals(password)) {
+                        System.out.println(account.getUserName() + "贵宾，欢迎您进入系统，您的卡号：" + account.getCardId());
+                        break OUT;
+                    } else {
+                        System.out.println("您的密码有误，请确认！");
+                    }
+                }
             }
         }
     }
