@@ -113,15 +113,89 @@ public class ATMSystem {
                     transferMoney(sc, account, accounts);
                     break;
                 case 5:
-                    break;
+                    // 修改密码
+                    updatePassWord(account, sc);
+                    return; // 返回首页
                 case 6:
                     // 退出登录
                     System.out.println("退出成功，欢迎下次光临");
                     return; // 让当前方法停止执行
                 case 7:
-                    break;
+                    // 销户功能
+                    // 从当前账户集合中，删除当前账户对象
+                    if (deleteAccount(account, accounts, sc)) {
+                        // 销户成功
+                        return; // 让当前方法停止执行，跳出去
+                    } else {
+                        // 没有销户成功
+                        break;
+                    }
                 default:
                     System.out.println("您输入的操作命令不正确");
+            }
+        }
+    }
+
+    /**
+     * 用户销户
+     * @param account
+     * @param accounts
+     * @param sc
+     */
+    private static boolean deleteAccount(Account account, ArrayList<Account> accounts, Scanner sc) {
+        System.out.println("****************用户销户操作*****************:");
+        String cardId = account.getCardId();
+        System.out.println("您正在对账户[" + cardId + "]进行销户操作，请确认是否销户？Y/N");
+        String selected = sc.next().strip().toUpperCase();
+        switch (selected){
+            // 真正的销户
+            // 从账户集合中，删除当前账户对象，完成销户
+            case "Y":
+                if (account.getMoney() > 0){
+                    System.out.println("您当前账户余额没有取完，不允许销户~");
+                } else {
+                    accounts.remove(account);
+                    System.out.println("账户:" + cardId + ",销户成功，返回首页");
+                    return true; // 销户成功
+                }
+                break;
+            default:
+                System.out.println("取消销户,当前账户继续保留～");
+        }
+        return false; // 取消销户
+    }
+
+    /**
+     * 修改密码
+     * @param account 当前登录账户对象
+     * @param sc 扫描器
+     */
+    private static void updatePassWord(Account account, Scanner sc) {
+        System.out.println("****************修改密码操作*****************:");
+        while (true) {
+            System.out.println("请您输入当前账户密码：");
+            String pwd = sc.next();
+            // 1.判断密码是否正确
+            if (pwd.equals(account.getPassword())) {
+                //认证通过
+                while (true) {
+                    System.out.println("请您输入新的密码：");
+                    String pwdFirst = sc.next();
+                    System.out.println("请确认新密码: ");
+                    String pwdSecond = sc.next();
+                    if (pwdFirst.equals(pwdSecond)) {
+                        // 2次密码一致，可以修改
+                        account.setPassword(pwdFirst);
+                        System.out.println("密码修改成功，请您重新登录!");
+                        return;
+                    } else {
+                        // 2次密码不一致，不可以修改
+                        System.out.println("密码确认失败，请重新输入！");
+                    }
+                }
+            } else {
+                // 认证不通过
+                System.out.println("您输入的密码不正确!");
             }
         }
     }
@@ -130,50 +204,67 @@ public class ATMSystem {
      * 转账功能
      * @param sc 扫描器
      * @param account 当前登录账户对象
-     * @param accounts 存储账户对象的集合
+     * @param accounts 全部账户的集合
      */
     private static void transferMoney(Scanner sc, Account account, ArrayList<Account> accounts) {
-        System.out.println("****************用户转账操作******************:");
-        // 1.判断账户对象集合中是否有2个及以上对象
+        System.out.println("****************用户转账操作*****************:");
+        // 1.判断是否足够2个账户
         if (accounts.size() < 2){
-            System.out.println("当前系统中账户不足2个，不能转账！");
-            return;
+            System.out.println("当前系统中账户不足2个，不能进行转账，请去开户吧～～");
+            return; // 结束当前方法
         }
 
-        // 3.用户输入对手方账户，判断对方账户是否存在
+        // 2.判断当前账户是否有钱
+        if (account.getMoney() == 0){
+            System.out.println("您当前账户余额为0，不能转账！");
+            return; // 结束当前方法
+        }
+
+        // 3.真正开始转账
         while (true) {
+            // 用户输入对手方账户，判断对方账户是否存在
             System.out.println("请输入转账账户：");
             String tradeAcc = sc.next();
-            Account transferAcc = getAccountById(accounts, tradeAcc); // 对手方账户
-            if (transferAcc != null) {
-                // 2.判断当前账户余额是否大于转账金额
-                System.out.println("请输入转账金额：");
-                double money = sc.nextDouble();
-                if (account.getMoney() < money){
-                    System.out.println("当前账户余额不足！");
-                    return;
+            // 这个卡号不能是自己的卡号
+            if (tradeAcc.equals(account.getCardId())){
+                System.out.println("对不起，您不可以给自己进行转账~~~");
+                continue; // 结束当次执行，死循环进入下一次
+            }
+
+            // 判断对手方账户是否存在，根据卡号查询对手方账户对象
+            Account transferAcc = getAccountById(accounts, tradeAcc);
+            if (transferAcc == null) {
+                System.out.println("对不起，您输入的对手方账户不存在!");
+            } else {
+                // 对手方账户对象存在，继续认证对手方姓氏
+                String userName = transferAcc.getUserName();
+                System.out.println("您当前要为*" +
+                        userName.substring(1) + "转账!\n请您输入姓氏确认：");
+                String preName = sc.next();
+
+                // 认证姓氏是否输入正确
+                if (userName.startsWith(preName)) {
+                    while (true) {
+                        // 认证通过，开始转账
+                        System.out.println("请输入转账金额：");
+                        double money = sc.nextDouble();
+                        // 判断当前账户余额是否大于转账金额
+                        if (account.getMoney() < money) {
+                            System.out.println("当前账户余额不足，您最多可以转账：" + account.getMoney() + "元");
+                        } else {
+                            // 余额足够，可以转账
+                            // 我放账户减去转账金额
+                            account.setMoney(account.getMoney() - money);
+                            // 对手方账户加上转账金额
+                            transferAcc.setMoney(transferAcc.getMoney() + money);
+                            System.out.println("转账成功,您的账户还剩余：" + account.getMoney() + "元");
+                            return; // 转账成功，结束转账
+                        }
+                    }
+                } else {
+                    System.out.println("姓氏确认失败，请重新确认！");
                 }
 
-                String userName = account.getUserName();
-                while (true) {
-                    System.out.println("您当前要为*" +
-                            userName.substring(1) + "转账!\n请您输入姓氏确认：");
-                    String surname = sc.next();
-                    // 姓氏确认成功，可以转账
-                    if ((""+userName.charAt(0)).equals(surname)) {
-                        // 我放账户减去转账金额
-                        account.setMoney(account.getMoney() - money);
-                        // 对手方账户加上转账金额
-                        transferAcc.setMoney(transferAcc.getMoney() + money);
-                        System.out.println("转账成功,您当前账户信息如下：");
-                        showAccount(account);
-                        return; // 转账成功，结束转账
-                    } else {
-                        System.out.println("姓氏确认失败，请重新确认！");
-                    }
-                }
-            } else {
-                System.out.println("不存在该账户，请重新确认！");
             }
         }
     }
