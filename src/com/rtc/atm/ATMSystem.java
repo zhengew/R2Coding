@@ -122,13 +122,14 @@ public class ATMSystem {
                     return; // 让当前方法停止执行
                 case 7:
                     // 销户功能
-                    boolean isDelete = deleteAccount(account, accounts, sc);
-                    if (isDelete){
-                        return; // 销户成功，返回首页
+                    // 从当前账户集合中，删除当前账户对象
+                    if (deleteAccount(account, accounts, sc)) {
+                        // 销户成功
+                        return; // 让当前方法停止执行，跳出去
                     } else {
-                        break; // 取消销户，返回操作页
+                        // 没有销户成功
+                        break;
                     }
-
                 default:
                     System.out.println("您输入的操作命令不正确");
             }
@@ -136,25 +137,32 @@ public class ATMSystem {
     }
 
     /**
-     * 销户功能
-     * @param account 当前登录账户
-     * @param accounts 全部账户集合
-     * @param sc 扫描器
+     * 用户销户
+     * @param account
+     * @param accounts
+     * @param sc
      */
     private static boolean deleteAccount(Account account, ArrayList<Account> accounts, Scanner sc) {
-        System.out.println("****************销户操作页面*****************:");
+        System.out.println("****************用户销户操作*****************:");
         String cardId = account.getCardId();
         System.out.println("您正在对账户[" + cardId + "]进行销户操作，请确认是否销户？Y/N");
-        String selected = sc.next();
-        if (selected.toUpperCase().strip().equals("Y")){
-            // 确认销户
-            accounts.remove(account);
-            System.out.println("账户:" + cardId + ",销户成功，返回首页");
-            return true;
-        } else {
-            System.out.println("取消销户成功，返回操作页面");
-            return false;
+        String selected = sc.next().strip().toUpperCase();
+        switch (selected){
+            // 真正的销户
+            // 从账户集合中，删除当前账户对象，完成销户
+            case "Y":
+                if (account.getMoney() > 0){
+                    System.out.println("您当前账户余额没有取完，不允许销户~");
+                } else {
+                    accounts.remove(account);
+                    System.out.println("账户:" + cardId + ",销户成功，返回首页");
+                    return true; // 销户成功
+                }
+                break;
+            default:
+                System.out.println("取消销户,当前账户继续保留～");
         }
+        return false; // 取消销户
     }
 
     /**
@@ -167,20 +175,21 @@ public class ATMSystem {
         while (true) {
             System.out.println("请您输入当前账户密码：");
             String pwd = sc.next();
+            // 1.判断密码是否正确
             if (pwd.equals(account.getPassword())) {
+                //认证通过
                 while (true) {
-                    //认证通过
                     System.out.println("请您输入新的密码：");
                     String pwdFirst = sc.next();
                     System.out.println("请确认新密码: ");
                     String pwdSecond = sc.next();
                     if (pwdFirst.equals(pwdSecond)) {
-                        // 密码修改成功
+                        // 2次密码一致，可以修改
                         account.setPassword(pwdFirst);
                         System.out.println("密码修改成功，请您重新登录!");
                         return;
                     } else {
-                        // 密码修改失败
+                        // 2次密码不一致，不可以修改
                         System.out.println("密码确认失败，请重新输入！");
                     }
                 }
