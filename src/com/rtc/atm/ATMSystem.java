@@ -113,15 +113,80 @@ public class ATMSystem {
                     transferMoney(sc, account, accounts);
                     break;
                 case 5:
-                    break;
+                    // 修改密码
+                    updatePassWord(account, sc);
+                    return; // 返回首页
                 case 6:
                     // 退出登录
                     System.out.println("退出成功，欢迎下次光临");
                     return; // 让当前方法停止执行
                 case 7:
-                    break;
+                    // 销户功能
+                    boolean isDelete = deleteAccount(account, accounts, sc);
+                    if (isDelete){
+                        return; // 销户成功，返回首页
+                    } else {
+                        break; // 取消销户，返回操作页
+                    }
+
                 default:
                     System.out.println("您输入的操作命令不正确");
+            }
+        }
+    }
+
+    /**
+     * 销户功能
+     * @param account 当前登录账户
+     * @param accounts 全部账户集合
+     * @param sc 扫描器
+     */
+    private static boolean deleteAccount(Account account, ArrayList<Account> accounts, Scanner sc) {
+        System.out.println("****************销户操作页面*****************:");
+        String cardId = account.getCardId();
+        System.out.println("您正在对账户[" + cardId + "]进行销户操作，请确认是否销户？Y/N");
+        String selected = sc.next();
+        if (selected.toUpperCase().strip().equals("Y")){
+            // 确认销户
+            accounts.remove(account);
+            System.out.println("账户:" + cardId + ",销户成功，返回首页");
+            return true;
+        } else {
+            System.out.println("取消销户成功，返回操作页面");
+            return false;
+        }
+    }
+
+    /**
+     * 修改密码
+     * @param account 当前登录账户对象
+     * @param sc 扫描器
+     */
+    private static void updatePassWord(Account account, Scanner sc) {
+        System.out.println("****************修改密码操作*****************:");
+        while (true) {
+            System.out.println("请您输入当前账户密码：");
+            String pwd = sc.next();
+            if (pwd.equals(account.getPassword())) {
+                while (true) {
+                    //认证通过
+                    System.out.println("请您输入新的密码：");
+                    String pwdFirst = sc.next();
+                    System.out.println("请确认新密码: ");
+                    String pwdSecond = sc.next();
+                    if (pwdFirst.equals(pwdSecond)) {
+                        // 密码修改成功
+                        account.setPassword(pwdFirst);
+                        System.out.println("密码修改成功，请您重新登录!");
+                        return;
+                    } else {
+                        // 密码修改失败
+                        System.out.println("密码确认失败，请重新输入！");
+                    }
+                }
+            } else {
+                // 认证不通过
+                System.out.println("您输入的密码不正确!");
             }
         }
     }
