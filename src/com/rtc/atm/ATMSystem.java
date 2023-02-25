@@ -133,7 +133,7 @@ public class ATMSystem {
      * @param accounts 全部账户的集合
      */
     private static void transferMoney(Scanner sc, Account account, ArrayList<Account> accounts) {
-        System.out.println("****************用户转账操作******************:");
+        System.out.println("****************用户转账操作*****************:");
         // 1.判断是否足够2个账户
         if (accounts.size() < 2){
             System.out.println("当前系统中账户不足2个，不能进行转账，请去开户吧～～");
