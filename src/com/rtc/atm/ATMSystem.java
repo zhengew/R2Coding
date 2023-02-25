@@ -19,6 +19,7 @@ public class ATMSystem {
             System.out.println("******************ATM系统**************************");
             System.out.println("1、账户登录");
             System.out.println("2、账户开户");
+            System.out.println("3、退出系统");
 
             System.out.println("请您选择操作: ");
             int command = sc.nextInt();
@@ -31,6 +32,10 @@ public class ATMSystem {
                     // 用户账户开户（option + enter 快捷生成方法）
                     register(accounts, sc);
                     break;
+                case 3:
+                    // 退出系统
+                    System.out.println("退出系统，请收好您的卡片及随身物品！");
+                    return;
                 default:
                     System.out.println("您输入的操作命令不存在");
             }
@@ -65,7 +70,7 @@ public class ATMSystem {
                     if (account.getPassword().equals(password)) {
                         System.out.println(account.getUserName() + "贵宾，欢迎您进入系统，您的卡号：" + account.getCardId());
                         // 展示登录后的操作页
-                        showUserCommand(account, sc);
+                        showUserCommand(account, sc, accounts);
                         return; // 干掉登录方法
                     } else {
                         System.out.println("您的密码有误，请确认！");
@@ -80,7 +85,7 @@ public class ATMSystem {
     /**
      * 展示登录后的操作页面
      */
-    private static void showUserCommand(Account account, Scanner sc) {
+    private static void showUserCommand(Account account, Scanner sc, ArrayList<Account> accounts) {
         while (true) {
             System.out.println("*********欢迎您进入ATM系统用户操作界面**************");
             String[] commands = {"查询:", "存款:", "取款:", "转账:", "修改密码:", "退出:", "注销当前账户:"};
@@ -104,6 +109,8 @@ public class ATMSystem {
                     drawMoney(account, sc);
                     break;
                 case 4:
+                    // 转账功能
+                    transferMoney(sc, account, accounts);
                     break;
                 case 5:
                     break;
@@ -115,6 +122,58 @@ public class ATMSystem {
                     break;
                 default:
                     System.out.println("您输入的操作命令不正确");
+            }
+        }
+    }
+
+    /**
+     * 转账功能
+     * @param sc 扫描器
+     * @param account 当前登录账户对象
+     * @param accounts 存储账户对象的集合
+     */
+    private static void transferMoney(Scanner sc, Account account, ArrayList<Account> accounts) {
+        System.out.println("****************用户转账操作******************:");
+        // 1.判断账户对象集合中是否有2个及以上对象
+        if (accounts.size() < 2){
+            System.out.println("当前系统中账户不足2个，不能转账！");
+            return;
+        }
+
+        // 3.用户输入对手方账户，判断对方账户是否存在
+        while (true) {
+            System.out.println("请输入转账账户：");
+            String tradeAcc = sc.next();
+            Account transferAcc = getAccountById(accounts, tradeAcc); // 对手方账户
+            if (transferAcc != null) {
+                // 2.判断当前账户余额是否大于转账金额
+                System.out.println("请输入转账金额：");
+                double money = sc.nextDouble();
+                if (account.getMoney() < money){
+                    System.out.println("当前账户余额不足！");
+                    return;
+                }
+
+                String userName = account.getUserName();
+                while (true) {
+                    System.out.println("您当前要为*" +
+                            userName.substring(1) + "转账!\n请您输入姓氏确认：");
+                    String surname = sc.next();
+                    // 姓氏确认成功，可以转账
+                    if ((""+userName.charAt(0)).equals(surname)) {
+                        // 我放账户减去转账金额
+                        account.setMoney(account.getMoney() - money);
+                        // 对手方账户加上转账金额
+                        transferAcc.setMoney(transferAcc.getMoney() + money);
+                        System.out.println("转账成功,您当前账户信息如下：");
+                        showAccount(account);
+                        return; // 转账成功，结束转账
+                    } else {
+                        System.out.println("姓氏确认失败，请重新确认！");
+                    }
+                }
+            } else {
+                System.out.println("不存在该账户，请重新确认！");
             }
         }
     }
