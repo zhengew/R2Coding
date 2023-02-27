@@ -11,4 +11,65 @@ package com.rtc.javasepromax.day1_static;
  * 并返回比较较大的年龄，例如：2个人中的最大年龄是:45岁。
  */
 public class Employee {
+    private String name; // 员工姓名
+    private int age; // 年龄
+    private String dept; // 部门
+    private static String company = "Google"; // 公司名称
+
+    public Employee() {
+    }
+
+    public Employee(String name, int age, String dept) {
+        this.name = name;
+        this.age = age;
+        this.dept = dept;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getDept() {
+        return dept;
+    }
+
+    public void setDept(String dept) {
+        this.dept = dept;
+    }
+
+    public static String getCompany() {
+        return company;
+    }
+
+    public static void setCompany(String company) {
+        Employee.company = company;
+    }
+
+    /**
+     * 员工信息
+     * 实例成员方法
+     */
+    public void showInfos(){
+        System.out.println("公司名称：" + Employee.company + "\n部门：" + dept + "\n姓名：" + name + "\n年龄：" + age);
+    }
+
+    /**
+     * 静态成员方法
+     *
+     */
+    public static int compareByAge(int age1, int age2){
+        return age1 > age2 ? age1 : age2;
+    }
 }
