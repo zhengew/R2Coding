@@ -13,6 +13,7 @@ public class User {
     private String name;
     private int age;
 
+
     public static void main(String[] args) {
         // 目标：理解static修饰的作用和访问特点
         // 1.类名.静态成员变量
