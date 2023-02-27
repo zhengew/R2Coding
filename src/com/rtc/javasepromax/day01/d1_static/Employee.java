@@ -1,4 +1,4 @@
-package com.rtc.javasepromax.day1_static;
+package com.rtc.javasepromax.day01.d1_static;
 
 /**
  * static关键字练习：定义员工类的实例

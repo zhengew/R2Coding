@@ -1,4 +1,4 @@
-package com.rtc.javasepromax.day1_static;
+package com.rtc.javasepromax.day01.d1_static;
 
 public class Student {
     /**
