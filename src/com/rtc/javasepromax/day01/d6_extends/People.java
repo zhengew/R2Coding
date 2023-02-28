@@ -31,6 +31,9 @@ public class People {
         this.age = age;
     }
 
+    /**
+     * 查看课表
+     */
     public void showCourse(){
         System.out.println("生化环材");
     }

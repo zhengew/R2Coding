@@ -4,12 +4,13 @@ public class Test {
 
     public static void main(String[] args) {
         // 目标：理解继承的设计思想
-        Teacher t = new Teacher();
-        t.showCourse();
-        t.showQuestion();
-
         Student s = new Student();
-        s.showCourse();
-        s.writeFeedback();
+        s.setName("张三"); // 调用父类的
+        s.setAge(18); // 调用父类的
+        System.out.println(s.getName());
+        System.out.println(s.getAge());
+
+        s.showCourse(); // 父类的
+        s.writeInfo(); // 子类的方法
     }
 }
