@@ -1,7 +1,7 @@
 package com.rtc.javasepromax.day01.d4_static_singleInstance;
 
 /**
- * 使用饿汉单例实现单例类
+ * 饿汉单例实
  */
 public class SingleInstance {
 
